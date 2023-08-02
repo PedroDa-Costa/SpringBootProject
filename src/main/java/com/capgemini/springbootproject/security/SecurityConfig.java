@@ -16,9 +16,8 @@ public class SecurityConfig {
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
         JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-        //don't ask about the "true" it just works this way
-        jdbcUserDetailsManager.setUsersByUsernameQuery("select username, password, true from members where username=?");
-        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("select username, authority from authorities where username=?");
+        jdbcUserDetailsManager.setUsersByUsernameQuery("select username, password, enabled from members where username=?");
+        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("select m.username, a.authority from members m inner join authorities a on m.id = a.id where m.username = ?");
         return jdbcUserDetailsManager;
     }
 
