@@ -12,7 +12,7 @@
 
 <body>
 
-<section class="vh-100" style="background-color: #508bfc;">
+<section class="vh-100" style="background-color: #89CFF0">
     <div class="container py-5 h-100">
         <p>user: pedro, pass: default</p>
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -21,6 +21,14 @@
                     <form action="#" th:action="@{/authenticateTheUser}" method="POST" class="card-body p-5 text-center">
 
                         <h3 class="mb-5">Sign in</h3>
+
+                        <div class="mb-4" th:if="${param.error}">
+                            <p style="color: red">Invalid username or password</p>
+                        </div>
+
+                        <div class="mb-4" th:if="${param.logout}">
+                            <p style="color: #89CFF0 ">Logged out</p>
+                        </div>
 
                         <div class="form-outline mb-4">
                             <input type="text" id="username" name="username" class="form-control form-control-lg" />
