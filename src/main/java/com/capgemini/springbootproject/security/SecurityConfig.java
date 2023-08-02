@@ -15,8 +15,11 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
-        //Tells Spring Security to use JDBC authentication with the data source
-        return new JdbcUserDetailsManager(dataSource);
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+        //don't ask about the "true" it just works this way
+        jdbcUserDetailsManager.setUsersByUsernameQuery("select username, password, true from members where username=?");
+        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery("select username, authority from authorities where username=?");
+        return jdbcUserDetailsManager;
     }
 
     @Bean
