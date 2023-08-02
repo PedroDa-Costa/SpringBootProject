@@ -2,8 +2,11 @@ package com.capgemini.springbootproject.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
 
@@ -14,6 +17,19 @@ public class SecurityConfig {
     public UserDetailsManager userDetailsManager(DataSource dataSource) {
         //Tells Spring Security to use JDBC authentication with the data source
         return new JdbcUserDetailsManager(dataSource);
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(
+                config -> config.anyRequest().authenticated()
+        )
+            .formLogin(form -> form.loginPage("/loginForm").loginProcessingUrl("/authenticateTheUser").permitAll()
+        )
+            .logout(logout -> logout.permitAll().deleteCookies("JSESSIONID")
+        );
+
+        return http.build();
     }
 
 }
