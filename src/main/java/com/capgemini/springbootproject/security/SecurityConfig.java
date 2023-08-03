@@ -3,7 +3,6 @@ package com.capgemini.springbootproject.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -24,9 +23,22 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(
-                config -> config.anyRequest().authenticated()
+                config -> {
+                    try {
+                        config.requestMatchers("/registration").permitAll()
+                                .requestMatchers("/register").permitAll()
+                                .requestMatchers("/error/**").permitAll()
+                                .requestMatchers("/authenticateTheUser").permitAll()
+                                .requestMatchers("/loginForm").permitAll()
+                                .requestMatchers("/loginForm*").permitAll()
+                                .anyRequest().authenticated()
+                                .and().formLogin().loginPage("/loginForm");
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
         )
-            .formLogin(form -> form.loginPage("/loginForm").loginProcessingUrl("/authenticateTheUser").permitAll()
+            .formLogin(form -> form.loginPage("/loginForm").loginProcessingUrl("/authenticateTheUser").defaultSuccessUrl("/home").permitAll()
         )
             .logout(logout -> logout.permitAll().deleteCookies("JSESSIONID")
         );
