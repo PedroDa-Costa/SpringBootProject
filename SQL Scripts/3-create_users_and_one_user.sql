@@ -3,13 +3,13 @@
 use springbootproject;
 
 create table members (
-        id int not null,
+        id int not null AUTO_INCREMENT,
         username varchar(50) not null,
         password char(68) not null,
         email varchar(68) not null,
         enabled tinyint not null,
         primary key (id)
-) auto_increment = 1;
+);
 
 -- pedro - default
 insert into members
