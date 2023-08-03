@@ -16,29 +16,19 @@
 
     <h3 class="text-center">Welcome <span sec:authentication="principal.username"></span></h3>
     <hr>
-    <form action="#" th:action="@{/registration}" method="Get">
-        <input type="submit" class="btn btn-secondary btn-sm" value="Regist" />
-    </form>
-
-<!--    <a th:href="@{/employees/showFormForAdd}"-->
-<!--       class="btn btn-primary btn-sm mb-3">-->
-<!--        Add User-->
-<!--    </a>-->
 
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
         <tr>
             <th>Username</th>
-            <th>Role</th>
-            <th>Password</th>
+            <th>Email</th>
         </tr>
         </thead>
 
         <tbody>
-        <tr th:each="tempEmployee : ${employees}">
-            <td th:text="${tempEmployee.username}" />
-            <td th:text="${tempEmployee.role}" />
-            <td th:text="${tempEmployee.password}" />
+        <tr th:each="member : ${members}">
+            <td th:text="${member.username}" />
+            <td th:text="${member.email}" />
         </tr>
         </tbody>
     </table>
