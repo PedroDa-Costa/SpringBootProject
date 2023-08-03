@@ -1,10 +1,13 @@
 # Spring Boot Project
 
 ## Requirements:
-- Create a root application where it is possible to login (user and pass).
-- A database connection (MySQl / H2) must be used to store user data.
-- The password must be encrypted in BCrypt
-- Must have a login page (basic)
+- Create a root application where it is possible to login (user and pass). :white_check_mark:
+- A database connection (MySQl / H2) must be used to store user data. :white_check_mark:
+- The password must be encrypted in BCrypt .:white_check_mark:
+- Must have a login page (basic). :white_check_mark:
+
+### TODO:
+- switch to JPA
 
 ## Versions:
 - [MySQL 8.0.34 Community](https://dev.mysql.com/downloads/installer/)
@@ -14,10 +17,3 @@
 ## Tools Used:
 - [IntelliJ Community](https://www.jetbrains.com/idea/download)
 - [DbVisualizer](https://www.dbvis.com/download/)
-
-<br>
-<br>
-
-
-#### user: pedro
-#### pass: default
