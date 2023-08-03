@@ -9,9 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MainController {
 
-    @GetMapping("/")
+    @GetMapping("/home")
     public String home() {
         return "home";
+    }
+
+    @GetMapping("/")
+    public String base() {
+        return "redirect:/home";
     }
 
 }
