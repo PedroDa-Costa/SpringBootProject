@@ -7,7 +7,7 @@
 - Must have a login page (basic). :white_check_mark:
 
 ### TODO:
-- switch to JPA
+- use LiquiBase
 
 ## Versions:
 - [MySQL 8.0.34 Community](https://dev.mysql.com/downloads/installer/)
