@@ -25,7 +25,8 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                 config -> {
                     try {
-                        config.requestMatchers("/registration").permitAll()
+                        config.requestMatchers("*favicon.ico").permitAll()
+                                .requestMatchers("/registration").permitAll()
                                 .requestMatchers("/register").permitAll()
                                 .requestMatchers("/error/**").permitAll()
                                 .requestMatchers("/authenticateTheUser").permitAll()
