@@ -6,9 +6,6 @@
 - The password must be encrypted in BCrypt .:white_check_mark:
 - Must have a login page (basic). :white_check_mark:
 
-### TODO:
-- use LiquiBase
-
 ## Versions:
 - [MySQL 8.0.34 Community](https://dev.mysql.com/downloads/installer/)
 - [JDK 17](https://www.oracle.com/pt/java/technologies/downloads/)
@@ -17,3 +14,8 @@
 ## Tools Used:
 - [IntelliJ Community](https://www.jetbrains.com/idea/download)
 - [DbVisualizer](https://www.dbvis.com/download/)
+
+## Resources:
+- [Spring Initializr](https://start.spring.io/)
+- [Liquibase](https://www.liquibase.org/)
+- [Spring Tutorials and Guides](https://www.baeldung.com/)
