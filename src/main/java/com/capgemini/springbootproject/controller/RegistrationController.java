@@ -1,9 +1,13 @@
 package com.capgemini.springbootproject.controller;
 
+import com.capgemini.springbootproject.entity.Authority;
+import com.capgemini.springbootproject.entity.Member;
+import com.capgemini.springbootproject.service.AuthorityService;
+import com.capgemini.springbootproject.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,12 +15,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class RegistrationController {
 
-    private final JdbcTemplate jdbcTemplate;
+    private MemberService memberService;
+    private AuthorityService authorityService;
 
 
     @Autowired
-    public RegistrationController(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public RegistrationController(MemberService memberService, AuthorityService authorityService) {
+        this.memberService = memberService;
+        this.authorityService = authorityService;
     }
 
     @GetMapping("/registration")
@@ -27,20 +33,26 @@ public class RegistrationController {
     @PostMapping("/register")
     public String processRegistrationForm(@RequestParam("username") String username,
                                           @RequestParam("password") String password,
-                                          @RequestParam("email") String email) {
+                                          @RequestParam("email") String email, Model model) {
 
-        String encryptedPassword = new BCryptPasswordEncoder().encode(password);
+        String encryptedPassword = "{bcrypt}" + new BCryptPasswordEncoder().encode(password);
 
-        jdbcTemplate.update(
-                "INSERT INTO members (username, password, email, enabled) VALUES (?, ?, ?, ?)",
-                username, "{bcrypt}" + encryptedPassword, email, 1
-        );
+        Member member = new Member(username, encryptedPassword, email, 1);
 
-        jdbcTemplate.update(
-                "INSERT INTO authorities (id, authority) VALUES ((SELECT id FROM members WHERE username = ?), 'ROLE_ADMIN')",
-                username
-        );
+        //check if member already exists
+        int id = memberService.findIdByMember(member);
 
-        return "redirect:/loginForm";
+        //if -1 no member with that username
+        if(id == -1) {
+            memberService.save(member);
+            //check new member id to use in authority
+            id = memberService.findIdByMember(member);
+            Authority authority = new Authority(id, "ROLE_ADMIN");
+            authorityService.save(authority);
+            return "redirect:/loginForm";
+        }
+        model.addAttribute("text", "Member already exists with that username");
+        return "registration";
+
     }
 }
