@@ -1,11 +1,11 @@
 -- liquibase formatted sql
 
--- changeset liquibase:1 runAlways:true
+-- changeset liquibase:3 runAlways:true
 use springbootproject;
 
-drop table authorities;
+drop table if exists authorities;
 
-drop table members;
+drop table if exists members;
 
 create table members (
         id int not null AUTO_INCREMENT,
@@ -26,5 +26,5 @@ create table authorities (
   foreign key (id) references members(id)
 );
 
-insert into authorities 
+insert into authorities
 values (1,'ROLE_ADMIN');
